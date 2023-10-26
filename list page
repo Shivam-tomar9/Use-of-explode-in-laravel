@@ -1,0 +1,63 @@
+@extends('dashboard-layout/base')
+@push('extra_css')
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.1/css/jquery.dataTables.min.css">
+@endpush
+@section('content')
+    <div class="main_content_iner ">
+        <div class="container-fluid p-0">
+            <div class="row justify-content-center">
+                <div class="col-12">
+                    <div class="QA_section">
+                        <div class="white_box_tittle list_header">
+                            <h4>Offline Schedule Timing</h4>
+                        </div>
+                        <div class="QA_table mb_30" style="background: #fff;
+                        padding: 25px;">
+                            @if (session()->get('success'))
+                                <div class="alert alert-success" role="alert">
+                                    {{ session()->get('success') }}
+                                </div>
+                            @endif
+
+                            @if (session()->has('error'))
+                                <div class="alert alert-danger">
+                                    {{ session()->get('error') }}
+                                </div>
+                            @endif
+                            <table class="table lms_table_active" id="dataTable">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">Day</th>
+                                       
+                                        <th>Timing</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach($schedules as $schedule)
+                                     {{-- dd ($weeklySchedule->city->city_name ) --}}
+                                        <tr>
+                                            <td>{{ $schedule->day  }}</td>
+                                            <td>{{ $schedule->timing }}</td>
+                                            
+                                            
+                                              
+                                           
+                                            <td class="d-flex">
+                                                <a href="{{ route('admin.edit-offline-timing', $schedule->id) }}" class="mx-2"><i
+                                                        class="ti-pencil-alt" style="color:blue"></i></a>
+                                                <a href="{{ route('admin.delete-weekly-sechedule', $schedule->id) }}"
+                                                    onclick="return confirm('Are you sure?')"><i class="ti-trash"
+                                                        style="color:red"></i></a>
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+@endsection
