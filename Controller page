@@ -1,0 +1,61 @@
+  public function timing()
+   {
+    return view('admin-dashboard.offlinetiming.add');
+   }
+   public function storeOfflineTiming(Request $request)
+{
+
+  
+
+    $schedule=new OfflineTiming();
+    
+    $time = $request->time_from . ' ' . $request->ampm_from  . '-' .  $request->time_to . ' '  . $request->ampm_to;
+    $schedule->day=$request->input('day');
+    $schedule->timing=$time;
+
+    $schedule->save();
+
+    return back()->with('success', 'Schedule saved successfully!');
+}
+ public function listOfflineTiming()
+ {
+    $schedules=OfflineTiming::all();
+    return view('admin-dashboard.offlinetiming.list',compact('schedules'));
+ }
+ public function editOfflineTiming($id)
+ {
+    $schedules=OfflineTiming::find($id);
+    $time = $schedules->timing;
+
+    
+    $timeParts = explode('-', $time);
+     
+    $fromParts = explode(' ', trim($timeParts[0]));
+    
+    $toParts = explode(' ', trim($timeParts[1]));
+
+    $schedules->time_from = $fromParts[0];
+    $schedules->ampm_from = $fromParts[1];
+    $schedules->time_to = $toParts[0];
+    $schedules->ampm_to = $toParts[1];
+    // dd($schedules);
+    return view('admin-dashboard.offlinetiming.edit',compact('schedules'));
+ }
+ public function updateOfflineTiming(Request $request, $id)
+{
+    $schedule = OfflineTiming::find($id);
+
+   
+
+    $time = $request->time_from . ' ' . $request->ampm_from  . '-' .  $request->time_to . ' '  . $request->ampm_to;
+    
+    $schedule->day = $request->input('day');
+    $schedule->timing = $time;
+
+    $schedule->save();
+
+    return redirect('/your-redirect-url')->with('success', 'Schedule updated successfully!');
+}
+
+    
+}
