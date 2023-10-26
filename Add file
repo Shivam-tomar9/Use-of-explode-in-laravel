@@ -1,0 +1,96 @@
+@extends('dashboard-layout/base')
+@push('extra_css')
+<link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css" rel="stylesheet">
+<meta name="csrf-token" content="{{csrf_token()}}">
+@endpush
+@section('content')
+<div class="main_content_iner ">
+    <div class="container-fluid p-0">
+        <div class="row justify-content-center">
+            <div class="col-lg-12">
+                <div class="white_box mb_30">
+                    <div class="box_header ">
+                        <div class="main-title">
+                            <h3 class="mb-0">Add Offline Timing</h3>
+                        </div>
+                    </div>
+                    <form method="post"  action="{{route('admin.store-offline-timing')}}">
+                        @if(session()->get('success'))
+                        <div class="alert alert-success" role="alert">
+                            {{ session()->get('success') }}
+                        </div>
+                        @endif
+                        @csrf
+
+                                    <div class="mb-4 col-md-6">
+                                       <label for="day">Select Days</label>
+                                       <select name="day" id="day" class="form-control">
+                                          <option value="" selected disabled>Select days</option>
+                                          <option value="Monday">Monday</option>
+                                          <option value="Tuesday">Tuesday</option>
+                                          <option value="Wednesday">Wednesday</option>
+                                          <option value="Thursday">Thursday</option>
+                                          <option value="Friday">Friday</option>
+                                          <option value="Saturday">Saturday</option>
+                                       </select>
+                                    </div>
+
+                                      <div class="mb-4 col-md-6">
+                                             <label for="time">Select Time From</label>
+                                             <input type="text" name="time_from" class="form-control" placeholder="e.g., 04:30">
+                                          </div>
+                                          <div class="mb-4 col-md-6">
+                                             <label for="ampm" class="hidden">Select AM/PM From</label>
+                                             <select name="ampm_from" class="form-control hidden">
+                                                <option value="AM">AM</option>
+                                                <option value="PM">PM</option>
+                                             </select>
+                                     </div>
+
+                                     <div class="mb-4 col-md-6">
+                                             <label for="time">Select Time To</label>
+                                             <input type="text" name="time_to" class="form-control" placeholder="e.g., 04:30">
+                                          </div>
+                                          <div class="mb-4 col-md-6">
+                                             <label for="ampm" class="hidden">Select AM/PM To</label>
+                                             <select name="ampm_to" class="form-control hidden">
+                                                <option value="AM">AM</option>
+                                                <option value="PM">PM</option>
+                                             </select>
+                                     </div>
+                                                   
+                       
+                      
+                 
+                        <div class="mb-3">
+                            <input type="submit" class="btn btn-primary" value="Submit">
+                                                        
+                           
+
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+document.getElementById('timing').addEventListener('change', function() {
+    var timeInput = document.getElementById('timing');
+    var ampmInput = document.getElementById('ampm');
+    
+    // Extract the time value and AM/PM
+    var timeValue = timeInput.value;
+    console.log(timeValue)
+    var ampm = timeValue.split(' ')[1]; // Assumes the time input includes AM or PM
+    
+    // Set the AM/PM in the hidden input
+    ampmInput.value = ampm;
+});
+</script>
+
+
+@endsection
+
+
